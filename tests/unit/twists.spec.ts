@@ -14,6 +14,7 @@ describe("twists", () => {
     ]);
   });
 
+  // Drop T-piece and then rotate it on the ground.
   it("t", () => {
     new TwistTester(
       `-----
@@ -30,6 +31,6 @@ describe("twists", () => {
          -xx--
          -x---
          xxxxx`
-      );
+      )
   });
 });

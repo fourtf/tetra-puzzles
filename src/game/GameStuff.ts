@@ -72,26 +72,32 @@ export function advanceGame(stuff: GameStuff) {
 }
 
 export function rotateRight(stuff: GameStuff) {
-  const newPiece = rotatePieceRight(stuff.piece);
-
-  if (!intersects(stuff.map, newPiece, stuff.piecePosition)) {
-    stuff.piece = newPiece;
-  }
+  rotate(stuff, rotatePieceRight);
 }
 
 export function rotateLeft(stuff: GameStuff) {
-  const newPiece = rotatePieceLeft(stuff.piece);
-
-  if (!intersects(stuff.map, newPiece, stuff.piecePosition)) {
-    stuff.piece = newPiece;
-  }
+  rotate(stuff, rotatePieceLeft);
 }
 
 export function rotate180(stuff: GameStuff) {
-  const newPiece = rotatePiece180(stuff.piece);
+  rotate(stuff, rotatePiece180);
+}
 
+function rotate(stuff: GameStuff, rotateFunc: (p: Piece) => Piece) {
+  const newPiece = rotateFunc(stuff.piece);
+
+  // simple rotation
   if (!intersects(stuff.map, newPiece, stuff.piecePosition)) {
     stuff.piece = newPiece;
+    return
+  }
+
+  // rotate + move up 1
+  const p: [number, number] = [stuff.piecePosition[0], stuff.piecePosition[1] - 1]
+  if (!intersects(stuff.map, newPiece, p)) {
+    stuff.piece = newPiece;
+    stuff.piecePosition = p;
+    return
   }
 }
 
