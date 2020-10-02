@@ -47,7 +47,9 @@
     "parserOptions": {
       "ecmaVersion": 2020
     },
-    "rules": {},
+    "rules": {
+      "@typescript-eslint/no-use-before-define": "off"
+    },
     "overrides": [
       {
         "files": [
