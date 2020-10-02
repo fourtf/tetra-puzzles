@@ -33,4 +33,31 @@ describe("twists", () => {
          xxxxx`
       )
   });
+
+  /*
+  it("triple t-spin", () => {
+    new TwistTester(
+      `-----
+       ---x-
+       ----x
+       xxx-x
+       xx--x
+       xxx-x
+       xxxxx`
+    )
+      .spawn(tPiece)
+      .softDrop()
+      .rotateRight()
+      .hardDrop()
+      .mustEqual(
+        `-----
+         ---x-
+         ----x
+         xxxxx
+         xxxxx
+         xxxxx
+         xxxxx`
+      )
+  });
+  */
 });
