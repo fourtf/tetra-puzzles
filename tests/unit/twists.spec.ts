@@ -1,4 +1,4 @@
-import { tPiece } from "@/game/Piece";
+import { sPiece, tPiece } from "@/game/Piece";
 import { parseMap, TwistTester } from "./TwistTester";
 
 describe("twists", () => {
@@ -34,30 +34,24 @@ describe("twists", () => {
       )
   });
 
-  /*
-  it("triple t-spin", () => {
+  it("s left", () => {
     new TwistTester(
       `-----
-       ---x-
-       ----x
-       xxx-x
+       -----
        xx--x
-       xxx-x
+       x--xx
        xxxxx`
     )
-      .spawn(tPiece)
-      .softDrop()
-      .rotateRight()
+      .spawn(sPiece, 1)
+      .rotateLeft()
+      .rotateLeft()
       .hardDrop()
       .mustEqual(
         `-----
-         ---x-
-         ----x
-         xxxxx
+         -----
          xxxxx
          xxxxx
          xxxxx`
       )
   });
-  */
 });

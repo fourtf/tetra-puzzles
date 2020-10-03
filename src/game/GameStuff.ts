@@ -4,8 +4,10 @@ import {
   rotatePiece180,
   rotatePieceLeft,
   rotatePieceRight,
+  sPiece,
   tPiece,
 } from "@/game/Piece";
+import { KicktableFunc, RotationDirection, srs } from "./Kicktable";
 
 export type GameStuff = {
   map: number[][];
@@ -13,11 +15,21 @@ export type GameStuff = {
   piece: Piece;
   nextPiece: () => Piece;
   finishAtBottom: boolean;
+  kickTable: KicktableFunc;
 };
 
 export function newGame(): GameStuff {
   return {
     map: [
+      // [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      // [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      // [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      // [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      // [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      // [3, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3],
+      // [3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3],
+      // [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -31,6 +43,7 @@ export function newGame(): GameStuff {
     piecePosition: newPiecePosition(),
     nextPiece: () => linePiece,
     finishAtBottom: true,
+    kickTable: srs,
   };
 }
 
@@ -72,32 +85,38 @@ export function advanceGame(stuff: GameStuff) {
 }
 
 export function rotateRight(stuff: GameStuff) {
-  rotate(stuff, rotatePieceRight);
+  rotate(stuff, rotatePieceRight, RotationDirection.Right);
 }
 
 export function rotateLeft(stuff: GameStuff) {
-  rotate(stuff, rotatePieceLeft);
+  rotate(stuff, rotatePieceLeft, RotationDirection.Left);
 }
 
 export function rotate180(stuff: GameStuff) {
-  rotate(stuff, rotatePiece180);
+  rotate(stuff, rotatePiece180, RotationDirection._180);
 }
 
-function rotate(stuff: GameStuff, rotateFunc: (p: Piece) => Piece) {
-  const newPiece = rotateFunc(stuff.piece);
+function rotate(
+  stuff: GameStuff,
+  pieceRotationFunc: (p: Piece) => Piece,
+  direction: RotationDirection
+) {
+  const newPiece = pieceRotationFunc(stuff.piece);
+  const kicktable = stuff.kickTable(newPiece.rotation, direction);
 
-  // simple rotation
-  if (!intersects(stuff.map, newPiece, stuff.piecePosition)) {
-    stuff.piece = newPiece;
-    return
-  }
+  debugger;
 
-  // rotate + move up 1
-  const p: [number, number] = [stuff.piecePosition[0], stuff.piecePosition[1] - 1]
-  if (!intersects(stuff.map, newPiece, p)) {
-    stuff.piece = newPiece;
-    stuff.piecePosition = p;
-    return
+  for (const [x, y] of kicktable) {
+    const p: [number, number] = [
+      stuff.piecePosition[0] + x,
+      stuff.piecePosition[1] - y,
+    ];
+
+    if (!intersects(stuff.map, newPiece, p)) {
+      stuff.piece = newPiece;
+      stuff.piecePosition = p;
+      return;
+    }
   }
 }
 

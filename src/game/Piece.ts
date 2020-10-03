@@ -1,5 +1,6 @@
 export type Piece = {
   blocks: boolean[][];
+  rotation: number; // 0..3
 };
 
 export const linePiece: Piece = {
@@ -9,6 +10,7 @@ export const linePiece: Piece = {
     [false, false, false, false],
     [false, false, false, false],
   ],
+  rotation: 0,
 };
 
 export const oPiece: Piece = {
@@ -16,6 +18,7 @@ export const oPiece: Piece = {
     [true, true],
     [true, true],
   ],
+  rotation: 0,
 };
 
 export const lPiece: Piece = {
@@ -24,6 +27,7 @@ export const lPiece: Piece = {
     [true, true, true],
     [false, false, false],
   ],
+  rotation: 0,
 };
 
 export const jPiece: Piece = {
@@ -32,6 +36,7 @@ export const jPiece: Piece = {
     [true, true, true],
     [false, false, false],
   ],
+  rotation: 0,
 };
 
 export const sPiece: Piece = {
@@ -40,6 +45,7 @@ export const sPiece: Piece = {
     [true, true, false],
     [false, false, false],
   ],
+  rotation: 0,
 };
 
 export const zPiece: Piece = {
@@ -48,6 +54,7 @@ export const zPiece: Piece = {
     [false, true, true],
     [false, false, false],
   ],
+  rotation: 0,
 };
 
 export const tPiece: Piece = {
@@ -56,6 +63,7 @@ export const tPiece: Piece = {
     [true, true, true],
     [false, false, false],
   ],
+  rotation: 0,
 };
 
 export const allPieces = [
@@ -68,13 +76,17 @@ export const allPieces = [
   tPiece,
 ];
 
-export const nopPiece: Piece = { blocks: [] };
+export const nopPiece: Piece = {
+  blocks: [],
+  rotation: 0,
+};
 
 export function rotatePieceRight(piece: Piece): Piece {
   return {
     blocks: piece.blocks[0].map((_, index) =>
       piece.blocks.map(row => row[index]).reverse()
     ),
+    rotation: (piece.rotation + 1) % 4,
   };
 }
 

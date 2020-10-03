@@ -9,6 +9,7 @@ import { defineComponent, onUnmounted, ref } from "vue";
 import drawGame from "@/game/DrawGame";
 import {
   advanceGame,
+  dropPiece,
   hardDrop,
   movePieceLeft,
   movePieceRight,
@@ -61,7 +62,7 @@ export default defineComponent({
           rotateRight(gameStuff);
           break;
         case "ArrowDown":
-          hardDrop(gameStuff);
+          dropPiece(gameStuff);
           break;
         case "ArrowLeft":
           movePieceLeft(gameStuff);
