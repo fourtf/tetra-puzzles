@@ -11,9 +11,10 @@ export default function drawGame(
   if (!ctx) return;
 
   ctx.resetTransform();
+  ctx.translate(0, 50);
   ctx.scale(50, 50);
   ctx.fillStyle = "#000";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillRect(0, -50, canvas.width, canvas.height);
 
   drawMap(ctx, map);
   drawPiece(ctx, piece, piecePosition, 1);

@@ -1,54 +1,36 @@
 import {
-  linePiece,
+  iPiece,
+  nopPiece,
   Piece,
   rotatePiece180,
   rotatePieceLeft,
   rotatePieceRight,
-  sPiece,
-  tPiece,
 } from "@/game/Piece";
 import { KicktableFunc, RotationDirection, srs } from "./Kicktable";
+import { NextPieceFunc } from "@/game/NextPieces";
 
 export type GameStuff = {
   map: number[][];
   piecePosition: [number, number];
   piece: Piece;
-  nextPiece: () => Piece;
+  nextPiece: NextPieceFunc;
   finishAtBottom: boolean;
   kickTable: KicktableFunc;
 };
 
 export function newGame(): GameStuff {
   return {
-    map: [
-      // [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      // [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      // [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      // [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      // [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      // [3, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3],
-      // [3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3],
-      // [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
-      [3, 3, 3, 0, 0, 0, 0, 0, 3, 3, 0, 3],
-      [3, 3, 0, 0, 0, 3, 3, 3, 3, 0, 0, 3],
-      [3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3],
-    ],
-    piece: tPiece,
+    map: [],
+    piece: iPiece,
     piecePosition: newPiecePosition(),
-    nextPiece: () => linePiece,
+    nextPiece: () => iPiece,
     finishAtBottom: true,
     kickTable: srs,
   };
 }
 
 function newPiecePosition(): [number, number] {
-  return [4, -1];
+  return [4, -2];
 }
 
 export function movePieceLeft(stuff: GameStuff) {
@@ -68,7 +50,7 @@ export function hardDrop(stuff: GameStuff) {
 
   const { map, piecePosition } = stuff;
   copyOver(map, stuff.piece, piecePosition, 1);
-  stuff.piece = stuff.nextPiece();
+  stuff.piece = stuff.nextPiece() ?? nopPiece;
   stuff.piecePosition = newPiecePosition();
 }
 

@@ -1,16 +1,27 @@
 <template>
   Tetris Puzzle Game (don't sue please)
+
   <Game />
+  <div v-if="isLevelSelected">Select a level below</div>
+  <LevelSelect />
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import Game from "./components/Game.vue";
+import { computed, defineComponent } from "vue";
+import Game from "@/components/Game.vue";
+import LevelSelect from "@/components/LevelSelect.vue";
+import game from "@/store/Game";
 
 export default defineComponent({
   name: "App",
   components: {
     Game,
+    LevelSelect,
+  },
+  setup() {
+    return {
+      isLevelSelected: computed(() => game.currentLevel.value.map.length === 0),
+    };
   },
 });
 </script>

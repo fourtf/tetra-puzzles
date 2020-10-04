@@ -15,7 +15,7 @@ export type Piece = {
   type: PieceType;
 };
 
-export const linePiece: Piece = {
+export const iPiece: Piece = {
   blocks: [
     [false, false, false, false],
     [true, true, true, true],
@@ -86,7 +86,7 @@ export const tPiece: Piece = {
 };
 
 export const allPieces = [
-  linePiece,
+  iPiece,
   oPiece,
   lPiece,
   jPiece,
@@ -117,4 +117,18 @@ export function rotatePieceLeft(piece: Piece): Piece {
 
 export function rotatePiece180(piece: Piece): Piece {
   return rotatePieceRight(rotatePieceRight(piece));
+}
+
+const piecesByName: { [key: string]: Piece } = {
+  i: iPiece,
+  o: oPiece,
+  l: lPiece,
+  j: jPiece,
+  s: sPiece,
+  z: zPiece,
+  t: tPiece,
+};
+
+export function getPieceByName(name: string): Piece | undefined {
+  return piecesByName[name];
 }

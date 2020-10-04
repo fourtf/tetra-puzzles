@@ -1,11 +1,11 @@
 <template>
   <div class="hello">
-    <canvas ref="canvas" class="game-canvas" width="600" height="400" />
+    <canvas ref="canvas" class="game-canvas" :width="width" :height="height" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onUnmounted, ref } from "vue";
+import { defineComponent, onUnmounted, ref, watch } from "vue";
 import drawGame from "@/game/DrawGame";
 import {
   advanceGame,
@@ -17,14 +17,29 @@ import {
   rotateLeft,
   rotateRight,
 } from "@/game/GameStuff";
+import game from "@/store/Game";
+import clone from "@/util/Clone";
+import { staticNextPiecesByName } from "@/game/NextPieces";
+import { nopPiece } from "@/game/Piece";
 
 export default defineComponent({
   name: "HelloWorld",
 
   setup() {
     const canvas = ref<HTMLCanvasElement | null>(null);
+    let gameStuff = newGame();
+    gameStuff.piecePosition = [-10, -10];
 
-    const gameStuff = newGame();
+    function resetLevel() {
+      gameStuff = newGame();
+      gameStuff.map = clone(game.currentLevel.value.map);
+      gameStuff.nextPiece = staticNextPiecesByName(
+        game.currentLevel.value.pieces
+      );
+      gameStuff.piece = gameStuff.nextPiece() ?? nopPiece;
+    }
+
+    watch(game.currentLevel, resetLevel);
 
     // draw
     {
@@ -80,11 +95,17 @@ export default defineComponent({
         case "Y":
           rotateLeft(gameStuff);
           break;
+        case "r":
+        case "R":
+          resetLevel();
+          break;
       }
     }
 
     return {
       canvas,
+      width: 600,
+      height: 450,
     };
   },
 });
@@ -92,8 +113,6 @@ export default defineComponent({
 
 <style scoped>
 .game-canvas {
-  width: 600px;
-  height: 400px;
-  border: 1px solid red;
+  border: 1px solid #999;
 }
 </style>
