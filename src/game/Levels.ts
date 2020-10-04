@@ -13,10 +13,6 @@ export const defaultLevel: Level = {
   pieces: [],
 };
 
-function unpack<T>(obj: { default: T }) {
-  return obj.default;
-}
-
 export const allLevelDefs: LevelDefinition[] = [
   {
     load: () => import("@/levels/t-spin-triple.json"),
