@@ -104,8 +104,6 @@ function rotate(
   const newPiece = pieceRotationFunc(stuff.piece);
   const kicktable = stuff.kickTable(newPiece.rotation, direction);
 
-  debugger;
-
   for (const [x, y] of kicktable) {
     const p: [number, number] = [
       stuff.piecePosition[0] + x,

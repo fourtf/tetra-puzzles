@@ -20,12 +20,11 @@ export default function drawGame(
 }
 
 function drawMap(ctx: CanvasRenderingContext2D, map: number[][]) {
-  for (let y = 0; y < map.length; y++) {
-    const line = map[y];
-    for (let x = 0; x < line.length; x++) {
-      drawBlock(ctx, x, y, map[y][x]);
-    }
-  }
+  map.forEach((line, y) => {
+    line.forEach((block, x) => {
+      drawBlock(ctx, x, y, block);
+    });
+  });
 }
 
 function drawPiece(
@@ -34,16 +33,13 @@ function drawPiece(
   pos: [number, number],
   blockIndex: number
 ) {
-  const { blocks } = piece;
-
-  for (let y = 0; y < blocks.length; y++) {
-    const line = blocks[y];
-    for (let x = 0; x < line.length; x++) {
-      if (blocks[y][x]) {
+  piece.blocks.forEach((line, y) => {
+    line.forEach((block, x) => {
+      if (block) {
         drawBlock(ctx, x + pos[0], y + pos[1], blockIndex);
       }
-    }
-  }
+    });
+  });
 }
 
 function drawBlock(
