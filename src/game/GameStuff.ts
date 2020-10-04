@@ -102,7 +102,11 @@ function rotate(
   direction: RotationDirection
 ) {
   const newPiece = pieceRotationFunc(stuff.piece);
-  const kicktable = stuff.kickTable(newPiece.rotation, direction);
+  const kicktable = stuff.kickTable(
+    newPiece.rotation,
+    newPiece.type,
+    direction
+  );
 
   for (const [x, y] of kicktable) {
     const p: [number, number] = [

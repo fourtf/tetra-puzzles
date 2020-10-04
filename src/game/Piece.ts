@@ -12,7 +12,7 @@ export enum PieceType {
 export type Piece = {
   blocks: boolean[][];
   rotation: number; // 0..3
-  id: PieceType;
+  type: PieceType;
 };
 
 export const linePiece: Piece = {
@@ -23,7 +23,7 @@ export const linePiece: Piece = {
     [false, false, false, false],
   ],
   rotation: 0,
-  id: PieceType.I,
+  type: PieceType.I,
 };
 
 export const oPiece: Piece = {
@@ -32,7 +32,7 @@ export const oPiece: Piece = {
     [true, true],
   ],
   rotation: 0,
-  id: PieceType.O,
+  type: PieceType.O,
 };
 
 export const lPiece: Piece = {
@@ -42,7 +42,7 @@ export const lPiece: Piece = {
     [false, false, false],
   ],
   rotation: 0,
-  id: PieceType.L,
+  type: PieceType.L,
 };
 
 export const jPiece: Piece = {
@@ -52,7 +52,7 @@ export const jPiece: Piece = {
     [false, false, false],
   ],
   rotation: 0,
-  id: PieceType.J,
+  type: PieceType.J,
 };
 
 export const sPiece: Piece = {
@@ -62,7 +62,7 @@ export const sPiece: Piece = {
     [false, false, false],
   ],
   rotation: 0,
-  id: PieceType.S,
+  type: PieceType.S,
 };
 
 export const zPiece: Piece = {
@@ -72,7 +72,7 @@ export const zPiece: Piece = {
     [false, false, false],
   ],
   rotation: 0,
-  id: PieceType.Z,
+  type: PieceType.Z,
 };
 
 export const tPiece: Piece = {
@@ -82,7 +82,7 @@ export const tPiece: Piece = {
     [false, false, false],
   ],
   rotation: 0,
-  id: PieceType.T,
+  type: PieceType.T,
 };
 
 export const allPieces = [
@@ -98,7 +98,7 @@ export const allPieces = [
 export const nopPiece: Piece = {
   blocks: [],
   rotation: 0,
-  id: PieceType.Other,
+  type: PieceType.Other,
 };
 
 export function rotatePieceRight(piece: Piece): Piece {
@@ -107,7 +107,7 @@ export function rotatePieceRight(piece: Piece): Piece {
       piece.blocks.map(row => row[index]).reverse()
     ),
     rotation: (piece.rotation + 1) % 4,
-    id: piece.id,
+    type: piece.type,
   };
 }
 
